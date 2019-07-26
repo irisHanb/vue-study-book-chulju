@@ -1,4 +1,5 @@
 var router = new VueRouter({
+  mode: 'history',
   routes: [
     {
       path: '/top',
@@ -38,7 +39,22 @@ var router = new VueRouter({
     },
     {
       path: '/users/:userId',
-      component: UserDetail
+      name: 'user',
+      component: UserDetail,
+      children: [
+        {
+          path: 'profile',
+          component: {
+            template: '<div> {{$route.params.userId}} 님의 profile </div>'
+          }
+        },
+        {
+          path: 'post',
+          component: {
+            template: '<div>{{$route.params.userId}}님의 post</div>'
+          }
+        }
+      ]
     }
   ]
 });

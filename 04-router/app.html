@@ -5,11 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Vue.js SPA 예제 어플리케이션</title>
-    <style></style>
+    <style>
+      [v-cloak]{
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <div id="app">
-      <nav>
+      <nav v-cloak>
         <router-link to="/top">최상위 페이지</router-link>
         <router-link to="/users">사용자 목록페이지</router-link>
         <router-link to="/users/new?redirect=true">사용자 등록 페이지</router-link>
@@ -25,9 +29,8 @@
 
     <!-- api -->
     <script src="./api.js"></script>
-    <script src="./Auth.js"></script>
+    <script src="./Auth.js"></script>    
 
-    <!-- component tamplates -->
     <!-- user list -->
     <script type="text/x-template" id="user-list">
       <div>
@@ -41,34 +44,6 @@
         </div>
       </div>
     </script>
-    <!-- user detail -->
-    <script type="text/x-template" id="user-detail">
-      <div>
-        <div class="loading" v-if="loading">로딩중</div>
-        <div v-if="error" class="error">
-          {{error}}
-        </div>
-        <div v-if="user">
-          <h2>{{user.name}}</h2>
-          <p>{{user.desc}}</p>
-        </div>
-      </div>
-    </script>
-    <!-- user create -->
-    <script type="text/x-template" id="user-create">
-      <div>
-        <div class="sending" v-if="sending">Sending...</div>
-        <form @submit.prevent="createUser">
-          <h2>신규사용자 등록</h2>
-          <div><label for="">이름: </label> <input type="text" name="" id="" placeholder="이름을 입력하세요." v-model="user.name"></div>
-          <div><label>소개: </label><textarea v-model="user.desc"></textarea> </div>
-          <div v-if="error" class="error">{{error}}</div>
-          <button>등록</button>
-        </form>
-      </div>
-    </script>
-
-    <!--  -->
     <script>
       var UserList = {
         template: '#user-list',
@@ -102,7 +77,76 @@
           }
         }
       };
+    </script>
+    <!-- // user list -->
 
+    <!-- user detail -->
+    <script type="text/x-template" id="user-detail">
+      <div>
+        <div class="loading" v-if="loading">로딩중</div>
+        <div v-if="error" class="error">
+          {{error}}
+        </div>
+        <div v-if="user">
+          <h2>{{user.name}}</h2>
+          <p>{{user.desc}}</p>
+          <nav>
+              <router-link :to="'/users/'+ $route.params.userId +'/profile'">Profile</router-link>
+              <router-link :to="'/users/'+ $route.params.userId +'/post'">Post</router-link>
+            </nav>
+            <router-view></router-view>
+        </div>        
+      </div>
+    </script>
+    <script>
+      var UserDetail = {
+        template: '#user-detail',
+        data: function() {
+          return {
+            loading: false,
+            user: null,
+            error: null
+          };
+        },
+        created: function() {
+          this.fetchData();
+        },
+        watch: {
+          $route: 'fetchData'
+        },
+        methods: {
+          fetchData: function() {
+            this.loading = true;
+            var self = this;
+            console.log(this.$route.params.userId);
+            getUser(this.$route.params.userId, function(err, user) {
+              self.loading = false;
+              if (err) {
+                self.error = err;
+              } else {
+                self.user = user;
+              }
+            });
+          }
+        }
+      };
+    </script>
+    <!-- // user detail -->
+
+    <!-- user create -->
+    <script type="text/x-template" id="user-create">
+      <div>
+        <div class="sending" v-if="sending">Sending...</div>
+        <form @submit.prevent="createUser">
+          <h2>신규사용자 등록</h2>
+          <div><label for="">이름: </label> <input type="text" name="" id="" placeholder="이름을 입력하세요." v-model="user.name"></div>
+          <div><label>소개: </label><textarea v-model="user.desc"></textarea> </div>
+          <div v-if="error" class="error">{{error}}</div>
+          <button>등록</button>
+        </form>
+      </div>
+    </script>    
+    <script>
       var UserCreate = {
         template: '#user-create',
         data: function() {
@@ -145,39 +189,7 @@
             });
           }
         }
-      };
-
-      var UserDetail = {
-        template: '#user-detail',
-        data: function() {
-          return {
-            loading: false,
-            user: null,
-            error: null
-          };
-        },
-        created: function() {
-          this.fetchData();
-        },
-        watch: {
-          $route: 'fetchData'
-        },
-        methods: {
-          fetchData: function() {
-            this.loading = true;
-            var self = this;
-            console.log(this.$route.params.userId);
-            getUser(this.$route.params.userId, function(err, user) {
-              self.loading = false;
-              if (err) {
-                self.error = err;
-              } else {
-                self.user = user;
-              }
-            });
-          }
-        }
-      };
+      };     
     </script>
 
     <!-- login -->
@@ -207,9 +219,9 @@
           };
         },
         methods: {
-          login: function() {
+          login: function() {            
             Auth.login(
-              this.eamil,
+              this.email,
               this.password,
               function(loggedIn) {
                 if (!loggedIn) {
@@ -223,8 +235,9 @@
         }
       };
     </script>
+    <!-- // login -->
 
-    <!-- login -->
+    
     <script src="./router.js"></script>
     <!-- main -->
     <script>

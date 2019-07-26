@@ -1,5 +1,6 @@
 var Auth = {
   login: function(email, pass, cb) {
+    console.log(email, pass);
     setTimeout(function() {
       if (email === 'vue@example.com' && pass === 'vue') {
         localStorage.token = Math.random()

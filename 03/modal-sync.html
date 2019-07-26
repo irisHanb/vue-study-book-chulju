@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>03</title>
+    <style>
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <ol>
+        <item :fruit="fruit" v-for="(fruit, idx) in fruitList"></item>
+      </ol>
+      <counter-btn></counter-btn>
+      <common-modal :visible.sync="visible"></common-modal>
+      <button @click="showModal">show modal</button>
+      <p>{{ numInCart }}</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="./counterBtn.js"></script>
+    <script src="./Modal.js"></script>
+
+    <script type="text/babel">
+      Vue.component("item", {
+        template: `<li>{{fruit}}</li>`,
+        props: ["fruit"]
+      });
+
+      new Vue({
+        el: "#app",
+        components: {
+          "counter-btn": counterBtn,
+          "common-modal": Modal
+        },
+        data: {
+          fruitList: ["배", "사과", "멜론", "파인애플"],
+          numInCart: 0,
+          visible: false
+        },
+        methods: {
+          addCart: function({ num, name }) {
+            this.numInCart = num;
+            console.log(name);
+          },
+          do: function() {
+            console.lang("click do");
+          },
+          showModal: function() {
+            this.visible = true;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

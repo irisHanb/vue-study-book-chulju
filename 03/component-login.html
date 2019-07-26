@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>03-component-login</title>
+  </head>
+  <body>
+    <div id="app">
+      <user-login></user-login>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <script type="text/x-template" id="login-template">
+      <div id="login-template">
+        <div>
+          <input type="text" name="" id="" placeholder="로그인 ID" v-model="userid" >
+        </div>
+        <div>
+          <input type="password" name="" id="" placeholder="패스워드" v-model="password">
+        </div>
+        <button @click="login">로그인</button>
+      </div>
+    </script>
+
+    <script>
+      var auth = {
+        login: function(id, password) {
+          alert('userid: ' + id + '\n' + 'password ' + password);
+        }
+      };
+      Vue.component('user-login', {
+        template: '#login-template',
+        data: function() {
+          return {
+            userid: '',
+            password: ''
+          };
+        },
+        methods: {
+          login: function() {
+            auth.login(this.userid, this.password);
+          }
+        }
+      });
+
+      new Vue({
+        el: '#app'
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>router</title>
+  </head>
+  <body>
+    <div id="app">
+      <router-link to="/">Home</router-link>
+      <router-link to="/top">Top page</router-link>
+      <router-link to="/users">Users page</router-link>
+      <button @click="move">move</button>
+      <router-view></router-view>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+    <script>
+      var router = new VueRouter({
+        routes: [
+          {
+            path: '/',
+            component: { template: '<div>Home</div>' }
+          },
+          {
+            path: '/top',
+            component: { template: '<div>top page</div>' }
+          },
+          {
+            path: '/users',
+            component: {
+              template: '<div>users page</div>'
+            }
+          },
+          {
+            path: '/user/:id',
+            name: 'user',
+            component: {
+              template: '<div>user id 는 {{$route.params.id}} 입니다.</div>'
+            }
+          }
+        ]
+      });
+    </script>
+    <script>
+      var app = new Vue({
+        router: router,
+        methods: {
+          move: function() {
+            router.push({ name: 'user', params: { id: 444 } });
+          }
+        }
+      }).$mount('#app');
+    </script>
+  </body>
+</html>

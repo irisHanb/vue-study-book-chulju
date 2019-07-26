@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>03-component</title>
+    <style>
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+
+      .header {
+        background: blue;
+        color: #fff;
+      }
+      .content li {
+        outline: 1px dotted red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <page-header class="header"><h2 slot="header">여름과일</h2></page-header>
+      <page-content class="content">
+        <ul slot="content">
+          <li>수박</li>
+          <li>망고</li>
+        </ul>
+      </page-content>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <script type="text/babel">
+      var headerTemplate = `
+        <div style="color: gray">
+          <slot name="header">부모 컴포넌트로부터 전달받은 것이 없으면 표시</slot>
+        </div>
+      `;
+      var contentTemplate = `
+        <div>
+          <slot name="content">No contents</slot>
+        </div>
+      `;
+      Vue.component("page-header", {
+        template: headerTemplate
+      });
+      Vue.component("page-content", {
+        template: contentTemplate
+      });
+
+      new Vue({
+        el: "#app"
+      });
+    </script>
+  </body>
+</html>

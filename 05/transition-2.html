@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>transition-2 :: use animate.css</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+</head>
+
+<body>
+
+  <div id="app">
+    <p><input type="text" v-model="aniClass"></p>
+    <button @click="isShow = !isShow">transition</button>
+    <!-- <transition :enter-active-classs="activeClass" :leave-active-class="activeClass"> -->
+    <transition enter-active-classs="slideInLeft" leave-active-class="slideOutLeft">
+
+      <p v-show="isShow">Hello, world</p>
+
+    </transition>
+
+  </div>
+
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: function () {
+        return {
+          aniClass: 'bounce',
+          isShow: false
+        }
+      },
+      computed: {
+        activeClass: function () {
+          // 활성화할 클래스가 무엇인지 계산, input 필드의 입력값에 따라 바뀐다. 
+          return this.aniClass + ' animated'
+        }
+      },
+
+    })
+  </script>
+</body>
+
+</html>

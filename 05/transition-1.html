@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>transition</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .content {
+      margin-top: 10px;
+      height: 200px;
+      color: #fff;
+      background: darkcyan;
+    }
+
+    /* 애니메이션 진입 및 진출은 다른 지속 시간 및  */
+    /* 타이밍 기능을 사용할 수 있습니다. */
+    .v-enter-active,
+    .v-leave-active {
+      transition: all .3s ease;
+    }
+
+    .v-leave-active {
+      /* transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0); */
+    }
+
+    .v-enter,
+    .v-leave-to
+
+    /* .slide-fade-leave-active below version 2.1.8 */
+      {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <button @click="show = !show">
+      Toggle render
+    </button>
+
+    <div class="contents">
+      <transition>
+        <p v-if="show">hello</p>
+      </transition>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <script>
+
+    new Vue({
+      el: '#app',
+      data: {
+        show: false
+      }
+    })
+  </script>
+
+</body>
+
+</html>

@@ -5,14 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>transition-3 :: my</title>
+  <title>transition-3 :: simple transiton + animate css </title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 
   <style>
     .contents {
       width: 100%;
-      height: 300px;
+      height: 100px;
       overflow: hidden;
+      outline: 1px dotted red;
 
       position: relative;
       margin-top: .3em;
@@ -57,10 +58,15 @@
     .slide-enter,
     .slide-leave-to {
       transform: translateY(-30px);
-      opacity: 0;
-      background: red;
 
+      background: red;
     }
+
+
+    .slide-fade-enter-active {}
+
+    .slide-fade-enter,
+    .slide-fade-leave-to {}
   </style>
 </head>
 
@@ -77,10 +83,12 @@
           <h2>Intro</h2>
         </div>
       </transition>
-      <transition name="slide">
+      <transition enter-active-class="animated slideInDown" leave-active-class="animated slideOutDown">
         <div class="about" v-show="current === 'about'">
           <h2>About</h2>
       </transition>
+
+
     </div>
   </div>
   </div>

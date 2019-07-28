@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>
+    template
+  </title>
+</head>
+
+<body>
+  <div id="app">
+    <input v-model.number="number" type="number" step="20">
+    <p>
+      {{ animatedNumber }}
+    </p>
+  </div>
+
+
+  <!-- tween -->
+  <script src="https://cdn.jsdelivr.net/npm/tween.js@16.3.4"></script>
+  <!-- color -->
+  <script src="https://cdn.jsdelivr.net/npm/color-js@1.0.3"></script>
+  <!-- vue -->
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <!-- js -->
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        number: 0,
+        animatedNumber: 0,
+      },
+      watch: {
+        number: function (newVal, oldVal) {
+          var vm = this;
+          function animate() {
+            if (TWEEN.update()) {
+              requestAnimationFrame(animate)
+            }
+          }
+          new TWEEN.Tween({ tweeningNumber: oldVal })
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .to({ tweeningNumber: newVal }, 500)
+            .onUpdate(function () {
+              vm.animatedNumber = this.tweeningNumber.toFixed(0)
+            })
+            .start();
+          animate();
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

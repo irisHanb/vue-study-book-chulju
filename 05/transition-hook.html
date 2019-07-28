@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>transition :: js hook: lib anime.js</title>
+  <style>
+    div,
+    ul,
+    li,
+    a,
+    p {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      font-size: 14px;
+      width: 90px;
+    }
+
+    .menu {
+      width: 90px;
+      text-decoration: none;
+      background-color: #9999ff;
+      color: #fff;
+      border: solid 1px #6666cc;
+      display: block;
+    }
+
+    .menu-item {
+      width: 90px;
+      text-decoration: none;
+      background-color: #ccccff;
+      color: #000;
+      border: solid 1px #6666cc;
+      border-top: none;
+      display: block;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <pull-down-menu></pull-down-menu>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.min.js"> </script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <!--  -->
+  <script type="text/x-template" id="menu-list">
+    <div @mouseleave="isShown= false">
+        <p @mouseover="isShown = true"><a herf="#" class="menu">{{name}}</a></p>
+        <transition
+          @before-enter="beforeEnter"
+          @enter="enter"
+          @leave="leave"
+          :css="false"
+        >
+          <ul v-if="isShown">
+            <li v-for="item in items" :key="item">
+              <a href="#" class="menu-item">{{item}}</a>
+            </li>
+          </ul>
+        </transition>
+      </div>
+  </script>
+  <script>
+    var PullDownMenu = {
+      template: '#menu-list',
+      data: function () {
+        return {
+          isShown: false,
+          name: '메뉴',
+          items: [
+            '1-1',
+            '1-2',
+            '1-3'
+          ]
+        }
+      },
+      methods: {
+        beforeEnter: function (el) {
+          // el: 트랜지션 대상 DOM 
+          // 애니메이션 처음 상태(높이 0, 불투명도 0)을 설정
+          el.style.height = '0px';
+          el.style.opacity = '0';
+        },
+        enter: function (el, done) {
+          // el: 트랜지션 대상 DOM
+          // 요소의 높이를 알아본 다음, Anime.js를 사용해 메뉴를 아래 방향으로 전개
+          // 3초 동안 불투명도와 높이를 바꿔가며 나타나게 함
+          anime({
+            targets: el,
+            opacity: 1,
+            height: el.scrollHeight + 'px',
+            duration: 3000,
+            complete: done
+          })
+        },
+        leave: function (el, done) {
+          // el: 트랜지션 대상 DOM
+          anime({
+            targets: el,
+            opacity: 0,
+            height: '0px',
+            duration: 1000,
+            complete: done
+          })
+        }
+      }
+    }
+  </script>
+  <!--  -->
+  <script>
+    new Vue({
+      el: '#app',
+      components: {
+        PullDownMenu
+      }
+
+
+    })
+  </script>
+
+</body>
+
+</html>

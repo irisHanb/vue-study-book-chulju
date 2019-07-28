@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>transition :: js hook: lib velocity.js</title>
+  <style>
+    /* fade */
+    .fade-enter-active,
+    .fade-leave-active {
+      transition: all .3s ease;
+    }
+
+    .fade-enter,
+    .fade-leave-to {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+
+    /*  */
+    .component-fade-enter-active,
+    .component-fade-leave-active {
+      transition: opacity .3s ease;
+    }
+
+    .component-fade-enter,
+    .component-fade-leave-to
+
+    /* .component-fade-leave-active below version 2.1.8 */
+      {
+      opacity: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <h2>element transittion</h2>
+    <hr>
+    <transition name="fade" mode="out-in">
+      <button @click="isOn = !isOn" :key="isOn">{{ isOn ? 'on' : 'off'}}</button>
+    </transition>
+    <h2>component transition</h2>
+    <hr>
+    <input type="radio" id="v-a" v-model="view" value="v-a"><label for="v-a">A</label>
+    <input type="radio" id="v-b" v-model="view" value="v-b"><label for="v-b">B</label>
+    <transition name="component-fade" mode="out-in">
+      <component v-bind:is="view"></component>
+    </transition>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        isOn: false,
+        view: 'v-a'
+      },
+      components: {
+        'v-a': {
+          template: '<div>Component A</div>'
+        },
+        'v-b': {
+          template: '<div>Component B</div>'
+        }
+      }
+
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>slot</title>
+</head>
+
+<body>
+  <div id="app">
+    <base-layout>
+      <template v-slot:header>
+        <h1>Here might be a page title</h1>
+      </template>
+      <template v-slot:default>
+        <todo-list :todos="todos">
+          <template v-slot="{todo}">
+            <li>{{todo.text}}</li>
+          </template>
+        </todo-list>
+      </template>
+      <p>A paragraph for the main content.</p>
+      <p>And another one.</p>
+
+      <template v-slot:footer>
+        <p>Here's some contact info</p>
+      </template>
+    </base-layout>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <!-- base layout -->
+  <script type="text/x-template" id="baseLayoutTemplate">
+    <div class="container">
+        <header>
+          <slot name="header"></slot>
+        </header>
+        <main>
+          <slot></slot>
+        </main>
+        <footer>
+          <slot name="footer"></slot>
+        </footer>
+      </div>
+  </script>
+  <script>
+    var BaseLayout = {
+      template: '#baseLayoutTemplate'
+    }
+  </script>
+  <!-- todos -->
+  <script type="text/x-template" id="todoListTemplate">
+    <ul>
+      <slot v-for="todo in todos" :todo="todo"></slot>
+    </ul>
+  </script>
+  <script>
+    var TodoList = {
+      props: {
+        todos: { type: Array, required: true }
+      },
+      template: '#todoListTemplate'
+    }
+
+  </script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        todos: [
+          { id: 1, text: 'do it', done: true },
+          { id: 2, text: 'clean the room', done: false },
+          { id: 3, text: 'JavaScript', done: true },
+          { id: 4, text: 'Perl', done: false }
+        ]
+      },
+      components: {
+        'base-layout': BaseLayout,
+        'todo-list': TodoList
+      }
+    })
+  </script>
+</body>
+
+</html>

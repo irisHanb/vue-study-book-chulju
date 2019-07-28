@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>template</title>
+  <style>
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      width: 238px;
+      margin-top: 10px;
+    }
+
+    .cell {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 25px;
+      height: 25px;
+      outline: 1px solid red;
+      background-color: yellow;
+      box-sizing: border-box;
+    }
+
+    .cell:nth-child(3n) {
+      margin-right: 0;
+    }
+
+    .cell:nth-child(27n) {
+      margin-bottom: 0;
+    }
+
+    .cell-move {
+      transition: transform 1s;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <h1>Lazy Sudoku</h1>
+    <p>Keeping hitting the shuffle button until you win</p>
+    <button @click="shuffle">shuffle</button>
+    <transition-group name="cell" tag="div" class="container">
+      <div v-for="cell in cells" :key="cell.id" class="cell">
+        {{cell.number}}
+      </div>
+    </transition-group>
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        cells: Array.apply(null, { length: 81 }).map(function (_, index) {
+          return {
+            id: index,
+            number: index % 9 + 1
+          }
+        })
+      },
+      methods: {
+        shuffle: function () {
+          this.cells = _.shuffle(this.cells);
+        }
+
+      }
+    })
+  </script>
+</body>
+
+</html>

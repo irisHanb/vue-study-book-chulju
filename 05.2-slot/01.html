@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>slot</title>
+</head>
+
+<body>
+  <div id="app">
+    <div>
+      <my-btn>{{textLabel}}</my-btn>
+    </div>
+    <div>
+      <my-btn></my-btn>
+    </div>
+    <!--  -->
+    <page>
+      <h1 slot="header">This is page header</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum vel velit aliquid illo ex quaerat magni,
+        repudiandae dolor laboriosam laudantium aspernatur unde. Ipsam iste quod iure natus quae, fuga iusto! </p>
+      <p slot="footer">This is footer</p>
+    </page>
+
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <script>
+    var MyBtn = {
+      template: `
+      <button>        
+        <slot>{{textLabel}}</slot>
+      </button>
+      `,
+      data: function () {
+        return {
+          textLabel: 'child label'
+        }
+      }
+    };
+    var MyPage = {
+      template: `
+      <div>
+        <header>
+          <slot name="header"></slot>
+        </header>
+        <main>
+          <slot>main</slot>
+        </main>
+        <footer>
+          <slot name="footer"></slot>
+        </footer>
+      </div>
+      `
+    }
+  </script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        textLabel: 'parent label'
+
+      },
+      components: {
+        'my-btn': MyBtn,
+        'page': MyPage
+      }
+    })
+  </script>
+</body>
+
+</html>

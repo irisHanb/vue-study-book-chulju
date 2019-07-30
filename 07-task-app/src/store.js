@@ -5,29 +5,34 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    tasks: [
+    //=== task
+    todos: [
       {
         id: 1,
-        name: '우유사기',
+        text: '우유사기',
         labelIds: [1, 3],
         done: false
       },
       {
         id: 2,
-        name: 'Vue.js 관련 책 사기',
+        text: 'Vue.js 관련 책 사기',
         labelIds: [2, 1],
         done: true
       }
     ],
     nextTaskId: 3,
+
+    //=== label
     labels: [
       { id: 1, text: '쇼핑' },
       { id: 2, text: '공부' },
       { id: 3, text: '기타' }
     ],
     labelText: '',
-    nextLabelId: 4,
-    checkedLabelIds: []
+    nextTagId: 4,
+
+    //=== filter
+    filterList: []
   },
   getters: {
     labelNames: state => lableIds => {
@@ -37,19 +42,28 @@ export default new Vuex.Store({
         labels.push(info.text);
       });
       return labels;
+    },
+    currentList(state) {
+      // let resultList = [];
+      // if (state.filterList.length > 0) {
+      //   resultList = state.todos.filter(todo => todo.id === state.filterId);
+      // } else {
+      //   resultList = state.todos;
+      // }
+      // // state.filterList = [];
+      // return resultList;
+      return state.todos;
     }
   },
   mutations: {
-    addTask(state, name) {
-      state.tasks.push({
+    addTodo(state, { text, labelIds }) {
+      state.todos.push({
         id: state.nextTaskId++,
-        labelIds: state.checkedLabelIds,
-        name,
+        text,
+        labelIds,
         done: false
       });
-      state.checkedLabelIds = [];
     },
-
     toggleTaskStatus(state, id) {
       state.tasks = state.tasks.map(task => {
         if (task.id === id) {
@@ -58,9 +72,13 @@ export default new Vuex.Store({
         return task;
       });
     },
-    // labels
-    addLabel(state, text) {
-      state.labels.push({ id: state.nextLabelId++, text });
+    updateFilterId(state, list) {
+      state.filterList = [...list];
+    },
+
+    // tags
+    addTag(state, text) {
+      state.labels.push({ id: state.nextTagId++, text });
       state.labelText = '';
     },
     updateLabelIds(state, list) {

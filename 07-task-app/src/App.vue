@@ -1,30 +1,14 @@
 <template>
   <div id="app">
-    <TaskList></TaskList>
-    <LabelList></LabelList>
-    <LabelBase :filters="labels">
-      <template v-slot:title>Filter</template>
-      <template v-slot:item>name</template>
-    </LabelBase>
+    <Task></Task>
   </div>
 </template>
 
 
 <script>
-import { mapState } from "vuex";
-import TaskList from "./components/TaskList";
-import LabelList from "./components/LabelList";
-import LabelBase from "./components/LabelBase";
-
+import Task from "./components/Task/Task";
 export default {
-  components: {
-    TaskList,
-    LabelList,
-    LabelBase
-  },
-  computed: {
-    ...mapState(["labels"])
-  }
+  components: { Task }
 };
 </script>
 
